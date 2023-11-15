@@ -60,10 +60,10 @@ public class CameraController : MonoBehaviour
         float horizontalX = Input.GetAxis("Mouse Y");
         float vertical = Input.GetAxis("Mouse ScrollWheel") * panSpeedVertical * Time.deltaTime;
 
-        Vector3 panDirection = new Vector3(-horizontalX, vertical, horizontalZ).normalized;
+        Vector3 panDirection = new Vector3(horizontalZ, vertical, horizontalX).normalized;
         Vector3 pan = panDirection * panSpeedHorizontal * Time.deltaTime;
 
-        transform.Translate(pan, Space.World);
+        transform.Translate(pan, Space.Self);
     }
 
     void ZoomCamera()

@@ -662,8 +662,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panSpeedHorizontal: 10
   panSpeedVertical: 10
-  zoomSpeed: 25
-  rotationSpeed: 50
+  zoomSpeed: 50
+  rotationSpeed: 800
   targetPoint: {fileID: 786836821}
 --- !u!4 &2041089680 stripped
 Transform:

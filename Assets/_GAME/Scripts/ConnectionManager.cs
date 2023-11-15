@@ -70,6 +70,7 @@ public class ConnectionManager : Singleton<ConnectionManager>
         //}
         var objFound = ConnectionInformations.FirstOrDefault(x => x.ObjTransform == sourceObj.transform).IsConnected = true;
         if (objFound) CheckAllConnections();
+        targetPlace.gameObject.SetActive(false);
 
         //urceObj.MoveToTarget(targetPlace);
         //var newTarget = targetObj.ConnectableObjects[0];
