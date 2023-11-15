@@ -34,7 +34,6 @@ public class Player : Singleton<Player>
 
     public static Action<ConnectableType> OnObjectGrab;
     //public static Action<ConnectableType> OnObjectRelease;
-    public static Action<ConnectableObject> OnObjectConnect;
 
     private void Start()
     {
@@ -136,7 +135,6 @@ public class Player : Singleton<Player>
                 {
                     draggedObjRef.Collider.enabled = true;
                     draggedObjTransform = null;
-                    continueDrag = false;
                 }
                 //Connection fail return to positions and pretend nothing ever happened
                 else
@@ -144,8 +142,11 @@ public class Player : Singleton<Player>
                     AudioManager.Instance.PlaySoundEffect(SoundEffects.WrongConnect);
                     draggedObjRef.Collider.enabled = true;
                     draggedObjTransform.parent = draggedObjRef.transform;
-                    draggedObjTransform.localPosition = Vector3.zero;
+                    //draggedObjTransform.localPosition = Vector3.zero;
+                    //Set to its old position
+
                 }
+                continueDrag = false;
                 /*
 
                 if (hit.transform.tag == "Connectable")

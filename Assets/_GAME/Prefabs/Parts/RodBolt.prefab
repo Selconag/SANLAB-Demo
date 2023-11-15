@@ -47,13 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d7df344c551e740bd5f87220e0c90b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectType: 6
-  Parent: 1
+  ObjectType: 7
   Placed: 0
   Connected: 0
   Collider: {fileID: 4453885657686214756}
-  ParentObject: {fileID: 0}
-  hiddenObjects: []
   ShiftingMovementCurve:
     serializedVersion: 2
     m_Curve:
@@ -79,8 +76,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   ParticleSystemPoint: {fileID: 0}
-  PotentialCombinationIndexes: 
-  ConnectableObjects: []
+  hiddenObjects: []
+  ConnectableObjectPoints: []
   Connections: []
 --- !u!64 &4453885657686214756
 MeshCollider:

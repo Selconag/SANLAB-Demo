@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6044868906784227239}
   - component: {fileID: 6098618862982053192}
   - component: {fileID: 8280014333430264271}
+  - component: {fileID: 5359167364900505388}
   m_Layer: 0
   m_Name: PinClip
   m_TagString: Connectable
@@ -47,13 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d7df344c551e740bd5f87220e0c90b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectType: 2
-  Parent: 1
-  Placed: 0
-  Connected: 0
-  Collider: {fileID: 6044868906784227239}
-  ParentObject: {fileID: 0}
-  hiddenObjects: []
+  ObjectType: 1
+  IsPlaced: 0
+  Collider: {fileID: 5359167364900505388}
   ShiftingMovementCurve:
     serializedVersion: 2
     m_Curve:
@@ -79,8 +76,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   ParticleSystemPoint: {fileID: 0}
-  PotentialCombinationIndexes: 
-  ConnectableObjects: []
+  hiddenObjects: []
+  ConnectableObjectPoints: []
   Connections: []
 --- !u!64 &6044868906784227239
 MeshCollider:
@@ -99,9 +96,9 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -4313931890668777801, guid: 030859fabc351e445955657a5a67e7ef, type: 3}
 --- !u!33 &6098618862982053192
@@ -154,3 +151,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5359167364900505388
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2543190698824365491}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0018235384, y: 0.0000979066, z: 0.0017781231}
+  m_Center: {x: 0.0000000029685907, y: 0, z: 0}

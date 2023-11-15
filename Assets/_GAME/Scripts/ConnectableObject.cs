@@ -3,28 +3,25 @@ using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
-    using static SerializableDictionaryComponent;
+    using static ConnectionDictionary;
 
 public class ConnectableObject : MonoBehaviour
 {
     [Header("Variables")]
     public ConnectableType ObjectType;
-    //public bool Parent = true;
-    public bool Placed;
-    public bool Connected;
+    public bool IsPlaced;
 
     [Header("References")]
     public Collider Collider;
-    public Transform ParentObject;
-    [SerializeField] List<ConnectableObject> hiddenObjects;
+    private Transform parentObject;
     //public Transform MoveTarget = null;
     public AnimationCurve ShiftingMovementCurve;
     public Transform ParticleSystemPoint;
 
     [Header("Lists")]
-    public List<int> PotentialCombinationIndexes;
-    public List<ConnectableObject> ConnectableObjects;
-    public List<ConnectionPlaces> Connections;
+    [SerializeField] List<ConnectableObject> hiddenObjects;
+    public List<ConnectableObject> ConnectableObjectPoints;
+    public List<ConnectionStatus> Connections;
     //public List<GameObject> OutlinedObjects;
 
     private void Awake()
@@ -41,25 +38,28 @@ public class ConnectableObject : MonoBehaviour
 
     private void ToggleHiddenObject(ConnectableType type)
     {
+        if (type == ObjectType) return;
         foreach (ConnectableObject hiddenObject in hiddenObjects)
         {
             //If grabbed object is the same type as hidden object, toggle visibility of hidden object
-            if (hiddenObject.ObjectType == type)
+            if (hiddenObject.ObjectType == type && !hiddenObject.IsPlaced)
             {
                 hiddenObject.gameObject.SetActive(!hiddenObject.gameObject.activeSelf);
             }
         }
     }
 
-    public void CallParentForConnection()
+    public void ToggleConnectableSystem()
     {
-        //check if a parent exists
-        if (ParentObject != null)
-        {
-
-        }
-        return;
+        IsPlaced = !IsPlaced;
+        if (!IsPlaced)
+            Player.OnObjectGrab += ToggleHiddenObject;
+        else
+            Player.OnObjectGrab -= ToggleHiddenObject;
+        GetComponent<Outline>().enabled = !IsPlaced;
+        GetComponent<SphereCollider>().enabled = !IsPlaced;
     }
+
 
     public void MoveToTarget(Transform targetPlace)
     {
@@ -75,5 +75,9 @@ public class ConnectableObject : MonoBehaviour
         ConnectionManager.Instance.ConnectionDone = true;
     }
 
-    //public Transform GetParentObject() => ParentObject;
+    public Transform ParentObject
+    {
+        get { return parentObject; }
+        set { parentObject = value; }
+    }
 }
