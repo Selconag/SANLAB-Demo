@@ -21,6 +21,11 @@ public class ConnectableObject : MonoBehaviour
     public List<ConnectableObject> ConnectableObjectPoints;
     public List<ConnectionStatus> Connections;
     //public List<GameObject> OutlinedObjects;
+    public Transform ParentObject
+    {
+        get { return parentObject; }
+        set { parentObject = value; }
+    }
 
     private void Awake()
     {
@@ -32,6 +37,22 @@ public class ConnectableObject : MonoBehaviour
     {
         Player.OnObjectGrab -= ToggleHiddenObject;
         //Player.OnObjectRelease -= ToggleHiddenObject;
+    }
+
+    public ConnectableObject GetBaseConnectableObject(ConnectableType type)
+    {
+        //if(parentObject != null) return parentObject.GetComponent<ConnectableObject>();
+        //return this;
+        //Find target object across connectable objects list
+        foreach (ConnectableObject hiddenObject in hiddenObjects)
+        {
+            //If grabbed object is the same type as hidden object, toggle visibility of hidden object
+            if (hiddenObject.ObjectType == type)
+            {
+                return hiddenObject;
+            }
+        }
+        return this;
     }
 
     private void ToggleHiddenObject(ConnectableType type)
@@ -70,12 +91,6 @@ public class ConnectableObject : MonoBehaviour
         AudioManager.Instance.PlaySoundEffect(SoundEffects.Success);
         //Play particle effect
         ParticleManager.Instance.PlayParticleEffect(ParticleEffects.Connect,transform.position);
-        ConnectionManager.Instance.ConnectionDone = true;
     }
 
-    public Transform ParentObject
-    {
-        get { return parentObject; }
-        set { parentObject = value; }
-    }
 }

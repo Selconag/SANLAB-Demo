@@ -7,9 +7,6 @@ public enum ConnectableType { Base, PinClip, WristPin, Rod, RodBearingRod, RodBe
 
 public class ConnectionManager : Singleton<ConnectionManager>
 {
-    [SerializeField] private Vector3 placement3DOffset;
-    public bool ConnectionDone;
-
     [Header("References")]
     public Dictionary<Transform, bool> ConnectedObjects = new Dictionary<Transform, bool>();
     public List<ConnectionStatus> ConnectionInformations = new List<ConnectionStatus>();

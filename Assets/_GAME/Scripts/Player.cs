@@ -128,22 +128,38 @@ public class Player : Singleton<Player>
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
-                if (ConnectionManager.Instance.ConnectObjects(draggedObjRef, hit.transform.parent?.GetComponent<ConnectableObject>(), hit.transform))
+                try
                 {
-                    draggedObjRef.Collider.enabled = true;
-                    draggedObjTransform = null;
+                    if (ConnectionManager.Instance.ConnectObjects(draggedObjRef, hit.transform.parent.GetComponent<ConnectableObject>(), hit.transform))
+                    //if (ConnectionManager.Instance.ConnectObjects(draggedObjRef, hit.transform.GetComponent<ConnectableObject>().GetBaseConnectableObject(draggedObjRef.ObjectType), hit.transform))
+                    {
+                        draggedObjRef.Collider.enabled = true;
+                        draggedObjTransform = null;
+                    }
+                    //Connection fail return to positions and pretend nothing ever happened
+                    else
+                    {
+                        AudioManager.Instance.PlaySoundEffect(SoundEffects.WrongConnect);
+                        draggedObjRef.Collider.enabled = true;
+                        draggedObjTransform.parent = draggedObjRef.transform;
+                        //draggedObjTransform.localPosition = Vector3.zero;
+                        //Set to its old position
+
+                    }
                 }
-                //Connection fail return to positions and pretend nothing ever happened
-                else
+                catch (Exception)
                 {
-                    AudioManager.Instance.PlaySoundEffect(SoundEffects.WrongConnect);
+                    continueDrag = false;
+                    OnObjectGrab?.Invoke(draggedObjRef.ObjectType);
+
                     draggedObjRef.Collider.enabled = true;
                     draggedObjTransform.parent = draggedObjRef.transform;
-                    //draggedObjTransform.localPosition = Vector3.zero;
-                    //Set to its old position
 
+                    draggedObjTransform = null;
+                    draggedObjRef = null;
+                    throw;
                 }
-                continueDrag = false;
+                
                 /*
 
                 if (hit.transform.tag == "Connectable")
@@ -169,7 +185,7 @@ public class Player : Singleton<Player>
                 */
             }
 
-
+            ////Add Unscrewing Part
             //else if (hit.transform.tag == "Connected")
             //{
             //    //Activate its parent object
@@ -177,7 +193,6 @@ public class Player : Singleton<Player>
             //    {
             //        if (ConnectionManager.Instance.ConnectObjects(draggedObjRef, hit.transform.GetComponent<ConnectableObject>().ParentObject.GetComponent<ConnectableObject>(), hit.transform))
             //        {
-            //            //Start alphabets animations and particles
 
             //            draggedObjRef.Collider.enabled = true;
             //            //draggedObject.localScale = Vector3.one;
@@ -185,7 +200,6 @@ public class Player : Singleton<Player>
             //            continueDrag = false;
             //            return;
             //        }
-            //        //merge fail return to positions and pretend nothing ever happened
             //        else
             //        {
             //            AudioManager.Instance.PlaySoundEffect(SoundEffects.WrongConnect);
@@ -197,7 +211,6 @@ public class Player : Singleton<Player>
             //    //Return to old place
             //    else
             //    {
-            //        //Start alphabets animations and particles
             //        draggedObjRef.Collider.enabled = true;
             //        draggedObjTransform.parent = draggedObjRef.transform;
             //        draggedObjTransform.localPosition = Vector3.zero;
@@ -206,13 +219,12 @@ public class Player : Singleton<Player>
             //}
 
             //Return to old place
-            else
-            {
-                //Start alphabets animations and particles
-                draggedObjRef.Collider.enabled = true;
-                draggedObjTransform.parent = draggedObjRef.transform;
-                //draggedObjTransform.localPosition = Vector3.zero;
-            }
+            //else
+            //{
+            //    draggedObjRef.Collider.enabled = true;
+            //    draggedObjTransform.parent = draggedObjRef.transform;
+            //    //draggedObjTransform.localPosition = Vector3.zero;
+            //}
 
             //Stop dragging it around and place on the current 
             draggedObjRef.Collider.enabled = true;

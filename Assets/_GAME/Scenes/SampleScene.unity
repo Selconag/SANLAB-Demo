@@ -1209,8 +1209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ba97e77b618e447ab335ea69bc7a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placement3DOffset: {x: 0, y: 0, z: 0}
-  ConnectionDone: 0
   ConnectionInformations:
   - ObjTransform: {fileID: 662104980}
     IsConnected: 0
@@ -1538,6 +1536,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1766044841034473221, guid: d6abd9d1b14359a49951dbc252e47f39, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1908383594301270984, guid: d6abd9d1b14359a49951dbc252e47f39, type: 3}
+      propertyPath: ConnectableObjectPoints.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3798572212043778113, guid: d6abd9d1b14359a49951dbc252e47f39, type: 3}
