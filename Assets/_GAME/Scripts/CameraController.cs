@@ -2,15 +2,29 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public float panSpeedHorizontal = 20f;
-    public float panSpeedVertical = 20f;
-    public float zoomSpeed = 5f;
-    public float rotationSpeed = 10f;
+    [Header("Camera System Variables")]
+    [SerializeField] private float panSpeedHorizontal = 20f;
+    [SerializeField] private float panSpeedVertical = 20f;
+    [SerializeField] private float zoomSpeed = 5f;
+    [SerializeField] private float rotationSpeed = 10f;
 
-    private bool isPanMode = false;
-    private bool isZoomMode = false;
-    private bool isRotateMode = false;
-
+    [Header("Camera System Switches")]
+    [Tooltip("Pan mode is the movement of Camera using mouse.\n" +
+        "Forward and Backward movement affects Z Dimension of Camera.\n" +
+        "Left and Right movement affects X Dimension of Camera.\n" +
+        "MouseWheel affects Y dimension of Camera.\n" +
+        "Press Q Key to activate and deactivate.")]
+    [SerializeField] private bool isPanMode = false;
+    [Tooltip("Zoom mode is the closeness of Camera to subject using only mousewheel.\n" +
+        "MouseWheel affects zoom level.\n" +
+        "Press W Key to activate and deactivate.")]
+    [SerializeField] private bool isZoomMode = false;
+    [Tooltip("Rotate mode is the angle of Camera for each dimension using mouse.\n" +
+        "Left and Right movement horizontally turns the camera around the subject.\n" +
+        "Forward and Backward movement vertically turns the camera around the subject.\n" +
+        "Press E Key to activate and deactivate.")]
+    [SerializeField] private bool isRotateMode = false;
+    [Tooltip("The subject we need to reference.")]
     [SerializeReference]private Transform targetPoint; // The point to rotate around
 
     void Update()

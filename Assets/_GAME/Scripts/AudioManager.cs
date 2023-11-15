@@ -12,6 +12,7 @@ public class AudioManager : Singleton<AudioManager>
 
     public void PlaySoundEffect(SoundEffects soundType)
     {
+        audioSource.Stop();
         audioSource.clip = soundType switch
         {
             SoundEffects.Success => successSound,
@@ -21,7 +22,6 @@ public class AudioManager : Singleton<AudioManager>
             SoundEffects.LevelComplete => levelCompleteSound,
             _ => throw new System.NotImplementedException(),
         };
-
         audioSource.Play();
     }
 }

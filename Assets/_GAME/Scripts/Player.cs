@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
-using System.Collections.Generic;
-using UnityEngine.TextCore.Text;
 using System;
 #if UNITY_EDITOR
 using UnityEditor;

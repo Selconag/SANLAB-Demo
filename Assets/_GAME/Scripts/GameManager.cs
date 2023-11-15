@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -9,6 +6,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] GameObject gameEndPanel;
     public void EndGame()
     {
+        AudioManager.Instance.PlaySoundEffect(SoundEffects.LevelComplete);
         gameEndPanel.SetActive(true);
     }
 

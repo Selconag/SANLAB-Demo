@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
-
 public class ConnectionDictionary : MonoBehaviour
 {
     [System.Serializable]

@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 using static ConnectionDictionary;
 using System.Linq;
-using Unity.VisualScripting;
 //This determines which object can connect to which, the name resembles the part to connect not the part itself
 public enum ConnectableType { Base, PinClip, WristPin, Rod, RodBearingRod, RodBearingCap, RodCap, RodBolt }
 
@@ -46,36 +44,33 @@ public class ConnectionManager : Singleton<ConnectionManager>
         //Check if connection can happen
         if (!CheckConnectionRequirements(sourceObj.ObjectType, targetObj.ObjectType))
         {
-            //Check for a reverse connection availability
-            if (CheckConnectionRequirements(targetObj.ObjectType, sourceObj.ObjectType))
-                return ConnectObjects(targetObj, sourceObj, targetPlace);
+            ////Check for a reverse connection availability
+            //if (CheckConnectionRequirements(targetObj.ObjectType, sourceObj.ObjectType))
+            //    return ConnectObjects(targetObj, sourceObj, targetPlace);
             return false;
         }
+        AudioManager.Instance.PlaySoundEffect(SoundEffects.Connect);
 
         //Check if any object is placed here
-        if(targetPlace.GetComponent<ConnectableObject>().IsPlaced) return false;
+        if (targetPlace.GetComponent<ConnectableObject>().IsPlaced) return false;
 
         sourceObj.ParentObject = targetObj.transform;
         sourceObj.tag = "Connected";
 
         sourceObj.transform.position = targetPlace.position;
         sourceObj.transform.SetParent(targetObj.transform);
+        sourceObj.transform.localEulerAngles = new Vector3(sourceObj.transform.localEulerAngles.x, sourceObj.transform.localEulerAngles.y, 0);
 
         targetPlace.GetComponent<ConnectableObject>().ToggleConnectableSystem();
 
-        //if (ConnectionInformations.ContainsKey(sourceObj.transform))
-        //{
-        //    ConnectionInformations[sourceObj.transform] = true;
-        //    CheckAllConnections();
-        //}
         var objFound = ConnectionInformations.FirstOrDefault(x => x.ObjTransform == sourceObj.transform).IsConnected = true;
         if (objFound) CheckAllConnections();
         targetPlace.gameObject.SetActive(false);
 
-        //urceObj.MoveToTarget(targetPlace);
-        //var newTarget = targetObj.ConnectableObjects[0];
+        //Add DoTween Movement
+        ////sourceObj.MoveToTarget(targetPlace);
+        ////var newTarget = targetObj.ConnectableObjects[0];
 
-        AudioManager.Instance.PlaySoundEffect(SoundEffects.Connect);
         return true;
     }
 
@@ -88,6 +83,7 @@ public class ConnectionManager : Singleton<ConnectionManager>
         }
         //All connections made, the game is over
         Debug.Log("You Win");
+        GameManager.Instance.EndGame();
         return true;
     }
 
