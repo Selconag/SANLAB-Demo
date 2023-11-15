@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    // Start is called before the first frame update
-    void Start()
+    [Header("References")]
+    [SerializeField] GameObject gameEndPanel;
+    public void EndGame()
     {
-        
+        gameEndPanel.SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ExitGame()
     {
-        
+        Application.Quit();
     }
 }
