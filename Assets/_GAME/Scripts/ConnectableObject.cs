@@ -30,13 +30,11 @@ public class ConnectableObject : MonoBehaviour
     private void Awake()
     {
         Player.OnObjectGrab += ToggleHiddenObject;
-        //Player.OnObjectRelease += ToggleHiddenObject;
     }
 
     private void OnDestroy()
     {
         Player.OnObjectGrab -= ToggleHiddenObject;
-        //Player.OnObjectRelease -= ToggleHiddenObject;
     }
 
     public ConnectableObject GetBaseConnectableObject(ConnectableType type)
@@ -55,7 +53,7 @@ public class ConnectableObject : MonoBehaviour
         return this;
     }
 
-    private void ToggleHiddenObject(ConnectableType type)
+    private void ToggleHiddenObject(ConnectableType type, bool status)
     {
         if (type == ObjectType) return;
         foreach (ConnectableObject hiddenObject in hiddenObjects)
@@ -63,7 +61,7 @@ public class ConnectableObject : MonoBehaviour
             //If grabbed object is the same type as hidden object, toggle visibility of hidden object
             if (hiddenObject.ObjectType == type && !hiddenObject.IsPlaced)
             {
-                hiddenObject.gameObject.SetActive(!hiddenObject.gameObject.activeSelf);
+                hiddenObject.gameObject.SetActive(status);
             }
         }
     }

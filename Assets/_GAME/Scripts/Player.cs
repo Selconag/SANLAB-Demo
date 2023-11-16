@@ -29,8 +29,8 @@ public class Player : Singleton<Player>
     [SerializeField] private ConnectableObject draggedObjRef;
     [SerializeField] private Camera activeCam;
 
-    public static Action<ConnectableType> OnObjectGrab;
-    //public static Action<ConnectableType> OnObjectRelease;
+    public static Action<ConnectableType, bool> OnObjectGrab;
+    //public static Action<ConnectableType, bool> OnObjectRelease;
 
     private void Start()
     {
@@ -58,29 +58,17 @@ public class Player : Singleton<Player>
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
                 Debug.Log("Ray Hit");
-                if (hit.transform.tag == "Connectable")
+                if (hit.transform.tag == "Connectable" || hit.transform.tag == "Connected")
                 {
                     //Start dragging it around
                     draggedObjTransform = hit.transform;
                     draggedObjRef = draggedObjTransform.GetComponent<ConnectableObject>();
-
                     draggedObjTransform.parent = null;
                     draggedObjRef.Collider.enabled = false;
-
                     continueDrag = true;
-
                     //Invoke onobjectgrab event
-                    OnObjectGrab?.Invoke(draggedObjRef.ObjectType);
-
+                    OnObjectGrab?.Invoke(draggedObjRef.ObjectType, true);
                 }
-                ////Disassembly the object from attached place
-                //else if (hit.transform.tag == "Connected")
-                //{
-                //    activeDraggedObject = hit.transform.GetComponent<ConnectableObject>().ParentObject.GetComponent<ConnectableObject>();
-                //    draggedObject = activeDraggedObject.GetParentObject();
-                //    continueDrag = true;
-                //    activeDraggedObject.Collider.enabled = false;
-                //}
             }
         }
 
@@ -150,7 +138,7 @@ public class Player : Singleton<Player>
                 catch (Exception)
                 {
                     continueDrag = false;
-                    OnObjectGrab?.Invoke(draggedObjRef.ObjectType);
+                    OnObjectGrab?.Invoke(draggedObjRef.ObjectType,false);
 
                     draggedObjRef.Collider.enabled = true;
                     draggedObjTransform.parent = draggedObjRef.transform;
@@ -230,7 +218,7 @@ public class Player : Singleton<Player>
             draggedObjRef.Collider.enabled = true;
             draggedObjTransform = null;
             continueDrag = false;
-            OnObjectGrab?.Invoke(draggedObjRef.ObjectType);
+            OnObjectGrab?.Invoke(draggedObjRef.ObjectType, false);
             draggedObjRef = null;
         }
 

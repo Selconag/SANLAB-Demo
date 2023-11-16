@@ -58,7 +58,7 @@ public class ConnectionManager : Singleton<ConnectionManager>
         sourceObj.transform.SetParent(targetObj.transform);
         sourceObj.transform.localEulerAngles = new Vector3(sourceObj.transform.localEulerAngles.x, sourceObj.transform.localEulerAngles.y, 0);
 
-        targetPlace.GetComponent<ConnectableObject>().ToggleConnectableSystem();
+        //targetPlace.GetComponent<ConnectableObject>().ToggleConnectableSystem();
 
         var objFound = ConnectionInformations.FirstOrDefault(x => x.ObjTransform == sourceObj.transform).IsConnected = true;
         if (objFound) CheckAllConnections();
