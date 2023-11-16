@@ -59,10 +59,11 @@ public class ConnectableObject : MonoBehaviour
         foreach (ConnectableObject hiddenObject in hiddenObjects)
         {
             //If grabbed object is the same type as hidden object, toggle visibility of hidden object
-            if (hiddenObject.ObjectType == type && !hiddenObject.IsPlaced)
-            {
-                hiddenObject.gameObject.SetActive(status);
-            }
+            if(hiddenObject != null)
+                if (hiddenObject.ObjectType == type && !hiddenObject.IsPlaced)
+                {
+                    hiddenObject.gameObject.SetActive(status);
+                }
         }
     }
 

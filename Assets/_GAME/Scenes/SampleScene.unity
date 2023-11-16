@@ -624,13 +624,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 609428034}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1556,7 +1556,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3798572212043778113, guid: d6abd9d1b14359a49951dbc252e47f39, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.92781883
       objectReference: {fileID: 0}
     - target: {fileID: 3798572212043778113, guid: d6abd9d1b14359a49951dbc252e47f39, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1564,7 +1564,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3798572212043778113, guid: d6abd9d1b14359a49951dbc252e47f39, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.37303114
       objectReference: {fileID: 0}
     - target: {fileID: 3798572212043778113, guid: d6abd9d1b14359a49951dbc252e47f39, type: 3}
       propertyPath: m_LocalRotation.z
@@ -1576,7 +1576,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3798572212043778113, guid: d6abd9d1b14359a49951dbc252e47f39, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 43.805
       objectReference: {fileID: 0}
     - target: {fileID: 3798572212043778113, guid: d6abd9d1b14359a49951dbc252e47f39, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z

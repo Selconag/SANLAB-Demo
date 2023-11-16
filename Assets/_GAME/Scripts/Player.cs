@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using UnityEngine.EventSystems;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -46,7 +47,16 @@ public class Player : Singleton<Player>
             currentClickPosition = Input.mousePosition;
             touchEvent = true;
         }
-        else touchEvent = false;
+        else
+        {
+            touchEvent = false;
+        };
+
+        //If End game GUI is open, prevent player from clicking objects
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
 
         #region Raycast
         //Upload touch system to just touch here
@@ -118,24 +128,22 @@ public class Player : Singleton<Player>
             {
                 try
                 {
-                    if (ConnectionManager.Instance.ConnectObjects(draggedObjRef, hit.transform.parent.GetComponent<ConnectableObject>(), hit.transform))
                     //if (ConnectionManager.Instance.ConnectObjects(draggedObjRef, hit.transform.GetComponent<ConnectableObject>().GetBaseConnectableObject(draggedObjRef.ObjectType), hit.transform))
-                    {
-                        draggedObjRef.Collider.enabled = true;
-                        draggedObjTransform = null;
-                    }
-                    //Connection fail return to positions and pretend nothing ever happened
-                    else
+                    if (!ConnectionManager.Instance.ConnectObjects(draggedObjRef, hit.transform.parent.GetComponent<ConnectableObject>(), hit.transform))
                     {
                         AudioManager.Instance.PlaySoundEffect(SoundEffects.WrongConnect);
-                        draggedObjRef.Collider.enabled = true;
                         draggedObjTransform.parent = draggedObjRef.transform;
-                        //draggedObjTransform.localPosition = Vector3.zero;
-                        //Set to its old position
-
                     }
+                    continueDrag = false;
+                    OnObjectGrab?.Invoke(draggedObjRef.ObjectType, false);
+
+                    draggedObjRef.Collider.enabled = true;
+                    //draggedObjTransform.parent = draggedObjRef.transform;
+
+                    draggedObjTransform = null;
+                    draggedObjRef = null;
                 }
-                catch (Exception)
+                catch (WrongObjectException)
                 {
                     continueDrag = false;
                     OnObjectGrab?.Invoke(draggedObjRef.ObjectType,false);
@@ -147,79 +155,17 @@ public class Player : Singleton<Player>
                     draggedObjRef = null;
                     throw;
                 }
-                
-                /*
-
-                if (hit.transform.tag == "Connectable")
-                {
-                    //Call Connection manager
-                    ////Connection success
-                    if (ConnectionManager.Instance.ConnectObjects(activeDraggedObject, hit.transform.parent?.GetComponent<ConnectableObject>(), hit.transform))
-                    {
-                        activeDraggedObject.Collider.enabled = true;
-                        //draggedObject.localScale = Vector3.one;
-                        draggedObject = null;
-                        continueDrag = false;
-                        return;
-                    }
-                    //Connection fail return to positions and pretend nothing ever happened
-                    else
-                    {
-                        AudioManager.Instance.PlaySoundEffect(SoundEffects.WrongConnect);
-                        activeDraggedObject.Collider.enabled = true;
-                        draggedObject.parent = activeDraggedObject.transform;
-                        draggedObject.localPosition = Vector3.zero;
-                    }
-                */
             }
+            else
+            {
+                continueDrag = false;
+                OnObjectGrab?.Invoke(draggedObjRef.ObjectType, false);
 
-            ////Add Unscrewing Part
-            //else if (hit.transform.tag == "Connected")
-            //{
-            //    //Activate its parent object
-            //    if (hit.transform.GetComponent<ConnectableObject>().ParentObject != null)
-            //    {
-            //        if (ConnectionManager.Instance.ConnectObjects(draggedObjRef, hit.transform.GetComponent<ConnectableObject>().ParentObject.GetComponent<ConnectableObject>(), hit.transform))
-            //        {
+                draggedObjRef.Collider.enabled = true;
 
-            //            draggedObjRef.Collider.enabled = true;
-            //            //draggedObject.localScale = Vector3.one;
-            //            draggedObjTransform = null;
-            //            continueDrag = false;
-            //            return;
-            //        }
-            //        else
-            //        {
-            //            AudioManager.Instance.PlaySoundEffect(SoundEffects.WrongConnect);
-            //            draggedObjRef.Collider.enabled = true;
-            //            draggedObjTransform.parent = draggedObjRef.transform;
-            //            draggedObjTransform.localPosition = Vector3.zero;
-            //        }
-            //    }
-            //    //Return to old place
-            //    else
-            //    {
-            //        draggedObjRef.Collider.enabled = true;
-            //        draggedObjTransform.parent = draggedObjRef.transform;
-            //        draggedObjTransform.localPosition = Vector3.zero;
-            //    }
-            //    return;
-            //}
-
-            //Return to old place
-            //else
-            //{
-            //    draggedObjRef.Collider.enabled = true;
-            //    draggedObjTransform.parent = draggedObjRef.transform;
-            //    //draggedObjTransform.localPosition = Vector3.zero;
-            //}
-
-            //Stop dragging it around and place on the current 
-            draggedObjRef.Collider.enabled = true;
-            draggedObjTransform = null;
-            continueDrag = false;
-            OnObjectGrab?.Invoke(draggedObjRef.ObjectType, false);
-            draggedObjRef = null;
+                draggedObjTransform = null;
+                draggedObjRef = null;
+            }
         }
 
         #endregion
